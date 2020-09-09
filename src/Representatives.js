@@ -1,6 +1,6 @@
 import React from 'react'
 import repsData from './data/house.json'
-import './Senators.css'
+import './Senators.scss'
 
 const reps = repsData.results[0].members
 
