@@ -2,6 +2,7 @@ import React from 'react'
 import repsData from './data/house.json'
 import RepresentativeView from './RepresentativeView'
 import { List, makeStyles } from '@material-ui/core'
+import LazyLoad from 'react-lazyload'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,6 +11,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#ddd',
   },
 }))
+
+const Loading = () => (
+  <div>
+    <h4>Loading...</h4>
+  </div>
+)
 
 const RepresentativeList = () => {
   const classes = useStyles()
@@ -44,10 +51,12 @@ const RepresentativeList = () => {
       <List dense className={classes.root}>
         {reps.map((member) => {
           return (
-            <RepresentativeView
-              rep={member}
-              key={member.id + member.total_votes}
-            ></RepresentativeView>
+            <LazyLoad key={member.id + member.total_votes} placeholder={<Loading />} height={200}>
+              <RepresentativeView
+                rep={member}
+                key={member.id + member.total_votes}
+              ></RepresentativeView>
+            </LazyLoad>
           )
         })}
       </List>
