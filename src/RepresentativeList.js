@@ -1,5 +1,6 @@
-import React from 'react'
-import repsData from './data/house.json'
+import React, { useState, useEffect } from 'react'
+//import repsData from './data/house.json'
+import axios from 'axios'
 import RepresentativeView from './RepresentativeView'
 import { List, makeStyles } from '@material-ui/core'
 import LazyLoad from 'react-lazyload'
@@ -20,46 +21,57 @@ const Loading = () => (
 
 const RepresentativeList = () => {
   const classes = useStyles()
-  const reps = repsData.results[0].members
 
-  const mostGutlessRep = reps.reduce((acc, rep) => {
-    const partyName = acc.party === 'D' ? 'Democrat' : 'Republican'
-    return acc.votes_with_party_pct > rep.votes_with_party_pct
-      ? { ...acc, partyName }
-      : { ...rep, partyName }
+  const [congressData, setCongressData] = useState({
+    loading: false,
+    reps: [],
   })
 
-  const mostMissedVotes = reps.reduce((acc, rep) => {
-    return acc.missed_votes_pct > rep.missed_votes_pct ? acc : rep
-  })
+  //const [congressReps, setCongressReps] = useState({ reps: [] })
+  //const [loading, setLoading] = useState({ loading: false })
+
+  const fetchReps = async () => {
+    setCongressData({ loading: true })
+    axios
+      .get(`https://api.propublica.org/congress/v1/116/house/members.json`, {
+        headers: { 'x-api-key': process.env.REACT_APP_PROPUBLICA_API_KEY }
+      })
+      .then(function (response) {
+        console.log(response)
+        setCongressData({
+          loading: false,
+          reps: response.data.results[0].members,
+        })
+      })
+  }
+
+  useEffect(() => {
+    fetchReps()
+  }, [])
 
   return (
-    <div className='column'>
-      <h1>Representatives!</h1>
-      <h3>
-        Most Gutless Representative: {mostGutlessRep.first_name}{' '}
-        {mostGutlessRep.last_name} votes with the {mostGutlessRep.partyName}{' '}
-        party {mostGutlessRep.votes_with_party_pct}% of the time!
-      </h3>
-      <h3>
-        Most Missed Votes: Can you believe{' '}
-        <span className='emphasis'>
-          {mostMissedVotes.first_name} {mostMissedVotes.last_name}
-        </span>{' '}
-        missed votes {mostMissedVotes.missed_votes_pct}% of the time!
-      </h3>
-      <List dense className={classes.root}>
-        {reps.map((member) => {
-          return (
-            <LazyLoad key={member.id + member.total_votes} placeholder={<Loading />} height={200}>
-              <RepresentativeView
-                rep={member}
-                key={member.id + member.total_votes}
-              ></RepresentativeView>
-            </LazyLoad>
-          )
-        })}
-      </List>
+    <div>
+      {!congressData.loading && (
+        <div className='column'>
+          <h1>{congressData.reps.length} Representatives!</h1>
+          <List dense className={classes.root}>
+            {congressData.reps.map((member) => {
+              return (
+                <LazyLoad
+                  key={member.id + member.total_votes}
+                  placeholder={<Loading />}
+                  height={200}
+                >
+                  <RepresentativeView
+                    rep={member}
+                    key={member.id + member.total_votes}
+                  ></RepresentativeView>
+                </LazyLoad>
+              )
+            })}
+          </List>
+        </div>
+      )}
     </div>
   )
 }
