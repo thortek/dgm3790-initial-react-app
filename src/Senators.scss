@@ -8,7 +8,7 @@ $cool-font: 'Arial', 'Helvetica', sans-serif;
 }
 
 .senator {
-    width: 60%;
+    width: 80%;
     margin: 8px;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
@@ -28,7 +28,18 @@ div {
     .column {
         h2 {
             font-weight: 900;
-            background-color: aqua;
         }
     }
+}
+
+.card {
+    margin: 20px;
+}
+
+.cardActionArea {
+    display: flex !important;
+}
+
+.cardMedia {
+    max-width: 140px;
 }
