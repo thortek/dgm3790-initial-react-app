@@ -4,7 +4,7 @@ $cool-font: 'Arial', 'Helvetica', sans-serif;
 
 .column {
     padding-left: 20px;
-    width: 400px;
+    // width: 400px;
 }
 
 .senator {
@@ -34,6 +34,8 @@ div {
 
 .card {
     margin: 20px;
+    max-width: 350px;
+    min-height: 400px;
 }
 
 .cardActionArea {
@@ -42,4 +44,8 @@ div {
 
 .cardMedia {
     max-width: 140px;
+}
+
+.containerGrid {
+    flex-grow: 1
 }

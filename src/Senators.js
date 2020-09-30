@@ -8,8 +8,9 @@ import {
   CardMedia,
   CardContent,
   Typography,
-    CardActions,
-  IconButton
+  CardActions,
+  IconButton,
+  Grid,
 } from '@material-ui/core'
 import TwitterIcon from '@material-ui/icons/Twitter'
 import FacebookIcon from '@material-ui/icons/Facebook'
@@ -52,46 +53,50 @@ class Senators extends Component {
         <Button variant='contained' color='primary'>
           Material UI Button!
         </Button>
-            {this.state.members.map((member, index) => {
-            
-                const memberMiddle = member.middle_name === null ? '' : member.middle_name
-                const fullName = `${member.first_name} ${memberMiddle} ${member.last_name}`
+        <Grid className='containerGrid' container spacing={2}>
+          {this.state.members.map((member, index) => {
+            const memberMiddle =
+              member.middle_name === null ? '' : member.middle_name
+            const fullName = `${member.first_name} ${memberMiddle} ${member.last_name}`
 
-          return (
-            <Card className='card' key={fullName}>
-              <CardActionArea className='cardActionArea'>
-                <CardMedia
-                  className='cardMedia'
-                  component='img'
-                  alt='Contemplative Reptile'
-                  height='140'
-                  image={`https://www.govtrack.us/static/legislator-photos/${member.govtrack_id}-200px.jpeg`}
-                  title='Contemplative Reptile'
-                />
-                <CardContent>
-                  <Typography gutterBottom variant='h5' component='h2'>
-                    {fullName}
-                  </Typography>
-                  <Typography
-                    variant='body2'
-                    color='textSecondary'
-                    component='div'
-                  >
-                    <SenateCommittees url={member.api_uri}/>
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <IconButton color='primary'>
-                  <TwitterIcon/>
-                </IconButton>
-                <IconButton color='primary'>
-                  <FacebookIcon/>
-                </IconButton>
-              </CardActions>
-            </Card>
-          )
-        })}
+            return (
+              <Grid key={fullName} item>
+                <Card className='card'>
+                  <CardActionArea className='cardActionArea'>
+                    <CardMedia
+                      className='cardMedia'
+                      component='img'
+                      alt='Contemplative Reptile'
+                      height='140'
+                      image={`https://www.govtrack.us/static/legislator-photos/${member.govtrack_id}-200px.jpeg`}
+                      title='Contemplative Reptile'
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant='h5' component='h2'>
+                        {fullName}
+                      </Typography>
+                      <Typography
+                        variant='body2'
+                        color='textSecondary'
+                        component='div'
+                      >
+                        <SenateCommittees url={member.api_uri} />
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <IconButton color='primary'>
+                      <TwitterIcon />
+                    </IconButton>
+                    <IconButton color='primary'>
+                      <FacebookIcon />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Grid>
+            )
+          })}
+        </Grid>
       </div>
     )
   }
