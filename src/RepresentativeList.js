@@ -30,25 +30,26 @@ const RepresentativeList = () => {
   //const [congressReps, setCongressReps] = useState({ reps: [] })
   //const [loading, setLoading] = useState({ loading: false })
 
-  const fetchReps = () => {
-    setCongressData({ loading: true })
-    axios
-      .get(`https://api.propublica.org/congress/v1/116/house/members.json`, {
-        headers: { 'x-api-key': process.env.REACT_APP_PROPUBLICA_API_KEY }
-      })
-      .then(function (response) {
-        console.log(response.data)
-        setCongressData({
-          loading: false,
-          reps: response.data.results[0].members,
-        })
-      }).catch(function (error) {
-        console.log(error)
-      })
-  }
+
 
   useEffect(() => {
-    //fetchReps()
+    const fetchReps = () => {
+      setCongressData({ loading: true })
+      axios
+        .get(`https://api.propublica.org/congress/v1/116/house/members.json`, {
+          headers: { 'x-api-key': process.env.REACT_APP_PROPUBLICA_API_KEY }
+        })
+        .then(function (response) {
+          console.log(response.data)
+          setCongressData({
+            loading: false,
+            reps: response.data.results[0].members,
+          })
+        }).catch(function (error) {
+          console.log(error)
+        })
+    }
+    fetchReps()
   }, [])
 
   return (
