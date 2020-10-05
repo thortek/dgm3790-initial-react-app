@@ -9,7 +9,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import LazyLoad from 'react-lazyload'
-import palpatine from './assets/images/palpatine.jpeg'
+import palpatine from '../assets/images/palpatine.jpeg'
 
 const useStyles = makeStyles({
   root: {

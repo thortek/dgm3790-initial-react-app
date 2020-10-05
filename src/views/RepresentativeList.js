@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 //import repsData from './data/house.json'
 import axios from 'axios'
-import RepresentativeView from './RepresentativeView'
+import RepresentativeView from '../components/RepresentativeView'
 import { List, makeStyles } from '@material-ui/core'
 import LazyLoad from 'react-lazyload'
 
