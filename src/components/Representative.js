@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RepresentativeView = (props) => {
+const Representative = (props) => {
   const member = props.rep
   const memberMiddle = member.middle_name === null ? '' : member.middle_name
   const classes = useStyles()
@@ -43,4 +43,4 @@ const RepresentativeView = (props) => {
   )
 }
 
-export default RepresentativeView
+export default Representative

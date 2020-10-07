@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 //import repsData from './data/house.json'
 import axios from 'axios'
-import RepresentativeView from '../components/RepresentativeView'
+import Representative from '../components/Representative'
 import { List, makeStyles } from '@material-ui/core'
 import LazyLoad from 'react-lazyload'
 
@@ -65,10 +65,10 @@ const RepresentativeList = () => {
                   placeholder={<Loading />}
                   height={200}
                 >
-                  <RepresentativeView
+                  <Representative
                     rep={member}
                     key={member.id + member.total_votes}
-                  ></RepresentativeView>
+                  ></Representative>
                 </LazyLoad>
               )
             })}
