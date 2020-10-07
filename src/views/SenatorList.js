@@ -5,6 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core'
 import Senator from '../components/Senator'
+import  { useCongressContext } from '../contexts/CongressContext'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles(() => ({
 
 const SenatorList = () => {
   const classes = useStyles()
+  const memberData = useCongressContext()
   
   const [memberData, setMemberData] = useState({
     loading: false,

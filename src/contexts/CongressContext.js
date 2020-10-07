@@ -11,7 +11,10 @@ export const CongressContextProvider = (props) => {
 
     useEffect(() => {
         // fetch data and set the state with it
-    })
+        // response.data
+        // setSenators(response.data.results[0].members)
+        // setReps(response.data.results[0].members)
+    }, [])
 
     return (
         <CongressContext.Provider value={
