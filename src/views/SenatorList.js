@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import senateData from '../data/senate.json'
+import React from 'react'
+//import senateData from '../data/senate.json'
 import {
   Grid,
   makeStyles
@@ -17,17 +17,17 @@ const SenatorList = () => {
   const classes = useStyles()
   const memberData = useCongressContext()
   
-  const [memberData, setMemberData] = useState({
+/*   const [memberData, setMemberData] = useState({
     loading: false,
     senators: []
-    })                   
+    })   */                 
 
-  useEffect(() => {
+/*   useEffect(() => {
     setMemberData({
       loading: false,
       senators: senateData.results[0].members
     })
-  }, [])
+  }, []) */
 
     return (
       <div>
