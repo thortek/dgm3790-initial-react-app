@@ -7,9 +7,12 @@ import {
   Drawer,
   List,
   ListItem,
+  Button,
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
 import { NavLink } from 'react-router-dom'
+
+import LoginDialog from '../components/LoginDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,9 +44,14 @@ const useStyles = makeStyles((theme) => ({
 export default function ButtonAppBar() {
   const classes = useStyles()
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [loginOpen, setLoginOpen] = useState(false)
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen)
+  }
+
+  const handleDialogToggle = () => {
+    setLoginOpen(!loginOpen)
   }
 
   return (
@@ -65,6 +73,7 @@ export default function ButtonAppBar() {
           <NavLink to='/senate' className={classes.navSpacing}>
             Senate
           </NavLink>
+          <Button color='inherit' onClick={handleDialogToggle}>Login</Button>
         </Toolbar>
       </AppBar>
       <Drawer open={drawerOpen} onClose={handleDrawerToggle}>
@@ -81,6 +90,7 @@ export default function ButtonAppBar() {
           </ListItem>
         </List>
       </Drawer>
+      <LoginDialog open={loginOpen}/>
     </div>
   )
 }
