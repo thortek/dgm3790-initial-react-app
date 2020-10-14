@@ -90,7 +90,7 @@ export default function ButtonAppBar() {
           </ListItem>
         </List>
       </Drawer>
-      <LoginDialog open={loginOpen}/>
+      <LoginDialog open={loginOpen} onClose={handleDialogToggle}/>
     </div>
   )
 }
