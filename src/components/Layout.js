@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {
   AppBar,
   Toolbar,
@@ -13,6 +13,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { NavLink } from 'react-router-dom'
 
 import LoginDialog from '../components/LoginDialog'
+import { AuthContext } from '../contexts/AuthContext'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,12 +47,30 @@ export default function ButtonAppBar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
 
+  const authContext = useContext(AuthContext)
+
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen)
   }
 
-  const handleDialogToggle = () => {
+/*   const handleDialogToggle = () => {
     setLoginOpen(!loginOpen)
+  } */
+
+  const handleAuth = () => {
+    console.log(authContext.isAuth)
+    if (authContext.isAuth) {
+      authContext.logout()
+      setLoginOpen(false)
+      return
+    }
+    if (!authContext.isAuth) {
+      if (!loginOpen) {
+        setLoginOpen(true)
+        return
+      }
+      setLoginOpen(false)
+    }
   }
 
   return (
@@ -73,7 +92,10 @@ export default function ButtonAppBar() {
           <NavLink to='/senate' className={classes.navSpacing}>
             Senate
           </NavLink>
-          <Button color='inherit' onClick={handleDialogToggle}>Login</Button>
+          {
+            authContext.isAuth ? <Button color='inherit' onClick={handleAuth}>Logout</Button> :
+            <Button color='inherit' onClick={handleAuth}>Login</Button>
+          }
         </Toolbar>
       </AppBar>
       <Drawer open={drawerOpen} onClose={handleDrawerToggle}>
@@ -90,7 +112,7 @@ export default function ButtonAppBar() {
           </ListItem>
         </List>
       </Drawer>
-      <LoginDialog open={loginOpen} onClose={handleDialogToggle}/>
+      <LoginDialog open={loginOpen} onClose={handleAuth}/>
     </div>
   )
 }

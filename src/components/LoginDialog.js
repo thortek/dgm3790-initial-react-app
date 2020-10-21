@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box, Dialog, TextField, Button, makeStyles } from '@material-ui/core'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { AuthContext } from '../contexts/AuthContext'
 
 const useStyles = makeStyles(() => ({
   dialogContent: {
@@ -17,8 +18,10 @@ const LoginDialog = (props) => {
   const classes = useStyles()
   const { open, onClose } = props
 
+  const authContext = useContext(AuthContext)
+
   const handleClose = () => {
-    onClose()
+    onClose(false)
   }
 
   return (
@@ -26,7 +29,7 @@ const LoginDialog = (props) => {
       <Formik
         initialValues={{
           email: 'foo@example.com',
-          password: 'Password123',
+          password: 'dkj8u4(&#Ldljad',
           submit: null,
         }}
         validationSchema={Yup.object().shape({
@@ -39,9 +42,11 @@ const LoginDialog = (props) => {
             .max(50, 'Password is too long!')
             .required('Password is required'),
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={ (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            authContext.login()
             console.log(values.email, values.password)
+            handleClose()
           } catch (err) {
             console.error(err)
           }
@@ -56,7 +61,7 @@ const LoginDialog = (props) => {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form noValidate autoComplete='off' className={classes.dialogContent}>
+          <form noValidate autoComplete='off' onSubmit={handleSubmit} className={classes.dialogContent}>
             <h2>Sign in</h2>
             <TextField
               autoFocus
@@ -74,18 +79,25 @@ const LoginDialog = (props) => {
               fullWidth
             />
             <TextField
-              id='password-input'
               label='Password'
               type='password'
-              variant='filled'
+                variant='filled'
+                name='password'
               margin='normal'
-              placeholder='********'
+                placeholder='********'
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+                required
+                fullWidth
             />
             <Box>
-              <Button color='primary' onClick={handleClose}>
+              <Button color='primary' variant='contained' onClick={handleClose}>
                 Cancel
               </Button>
-              <Button color='primary' type='submit'>Login</Button>
+              <Button color='primary' variant='contained' type='submit' disabled={Boolean(errors.email || errors.password)}>Login</Button>
             </Box>
           </form>
         )}
