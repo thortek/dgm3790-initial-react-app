@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 //import repsData from './data/house.json'
 import axios from 'axios'
 import Representative from '../components/Representative'
 import { List, makeStyles } from '@material-ui/core'
 import LazyLoad from 'react-lazyload'
+import { AuthContext } from '../contexts/AuthContext'
+import { Redirect } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +23,8 @@ const Loading = () => (
 
 const RepresentativeList = () => {
   const classes = useStyles()
+
+  const { isAuth } = useContext(AuthContext)
 
   const [congressData, setCongressData] = useState({
     loading: false,
@@ -53,6 +57,7 @@ const RepresentativeList = () => {
   }, [])
 
   return (
+    isAuth ?
     <div>
       {!congressData.loading && (
         <div className='column'>
@@ -75,7 +80,8 @@ const RepresentativeList = () => {
           </List>
         </div>
       )}
-    </div>
+      </div>
+      : <Redirect to="/"/>
   )
 }
 

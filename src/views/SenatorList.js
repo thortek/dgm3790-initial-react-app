@@ -1,11 +1,12 @@
-import React from 'react'
-//import senateData from '../data/senate.json'
+import React, { useContext } from 'react'
+import { Redirect } from 'react-router-dom'
 import {
   Grid,
   makeStyles
 } from '@material-ui/core'
 import Senator from '../components/Senator'
-import  { useCongressContext } from '../contexts/CongressContext'
+import { useCongressContext } from '../contexts/CongressContext'
+import { AuthContext } from '../contexts/AuthContext'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -16,6 +17,7 @@ const useStyles = makeStyles(() => ({
 const SenatorList = () => {
   const classes = useStyles()
   const memberData = useCongressContext()
+  const { isAuth } = useContext(AuthContext)
   
 /*   const [memberData, setMemberData] = useState({
     loading: false,
@@ -29,7 +31,8 @@ const SenatorList = () => {
     })
   }, []) */
 
-    return (
+  return (
+      isAuth ?
       <div>
         <Grid className={classes.root} container spacing={2}>
           {memberData.senators.map((member, index) => {
@@ -42,6 +45,7 @@ const SenatorList = () => {
           })}
         </Grid>
       </div>
+      : <Redirect to='/'/>
     )
 }
 
