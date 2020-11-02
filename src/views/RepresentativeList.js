@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-//import repsData from './data/house.json'
+import repsData from '../data/house.json'
 import axios from 'axios'
 import Representative from '../components/Representative'
 import { List, makeStyles } from '@material-ui/core'
@@ -33,10 +33,14 @@ const RepresentativeList = () => {
 
   //const [congressReps, setCongressReps] = useState({ reps: [] })
   //const [loading, setLoading] = useState({ loading: false })
-
-
-
+  
   useEffect(() => {
+    setCongressData({ loading: false, reps: repsData.results[0].members })
+  }, [])
+  
+
+
+/*   useEffect(() => {
     const fetchReps = () => {
       setCongressData({ loading: true })
       axios
@@ -54,7 +58,7 @@ const RepresentativeList = () => {
         })
     }
     fetchReps()
-  }, [])
+  }, []) */
 
   return (
     isAuth ?

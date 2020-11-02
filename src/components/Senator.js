@@ -41,7 +41,7 @@ const Senator = (props) => {
             {fullName}
           </Typography>
           <Typography variant='body2' color='textSecondary' component='div'>
-            <SenateCommittees url={member.api_uri} />
+           {/*  <SenateCommittees url={member.api_uri} /> */}
           </Typography>
         </CardContent>
       </CardActionArea>
