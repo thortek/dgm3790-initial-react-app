@@ -5,12 +5,20 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import AuthContextProvider from './contexts/AuthContext'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+
+const client = new ApolloClient({
+  uri: 'https://rickandmortyapi.com/graphql/',
+  cache: new InMemoryCache(),
+})
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
       <BrowserRouter>
-        <App />
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
       </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>,
