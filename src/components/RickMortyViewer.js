@@ -4,6 +4,7 @@ import { Container,
     makeStyles,
     Typography,
     Card,
+    CardMedia,
     CardActionArea,
     CardContent, } from '@material-ui/core'
 
@@ -27,7 +28,7 @@ const useStyles = makeStyles(() => ({
 
 const ALL_CHARACTERS = gql`
 query {
-    characters {
+    characters(page: 7) {
     results {
       id
       name
@@ -71,6 +72,13 @@ const RickMortyViewer = () => {
                 return (
                     <Card className={classes.card} key={character.id}>
                         <CardActionArea>
+                            <CardMedia
+                                component='img'
+                                height='300'
+                                className={classes.media}
+                                image={character.image}
+                                title={character.name}
+                                />
                             <CardContent>
                                 <Typography gutterBottom variant='h5' component='h2'>
                                     {character.name}
