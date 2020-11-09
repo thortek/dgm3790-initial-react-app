@@ -5,7 +5,6 @@ import { Container,
     Typography,
     Card,
     CardActionArea,
-    CardMedia,
     CardContent, } from '@material-ui/core'
 
 const useStyles = makeStyles(() => ({

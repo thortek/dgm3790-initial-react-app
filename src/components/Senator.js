@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { Twitter, Facebook } from '@material-ui/icons'
-import SenateCommittees from './SenateCommittees'
+//import SenateCommittees from './SenateCommittees'
 
 const useStyles = makeStyles(() => ({
   root: {
