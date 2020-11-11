@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
 
 const ALL_CHARACTERS = gql`
 query {
-    characters(page: 7) {
+    characters {
     results {
       id
       name
@@ -82,6 +82,12 @@ const RickMortyViewer = () => {
                             <CardContent>
                                 <Typography gutterBottom variant='h5' component='h2'>
                                     {character.name}
+                                </Typography>
+                                <Typography variant='subtitle1' color='textSecondary'>
+                                    First Episode: {character.episode[0].name}
+                                </Typography>
+                                <Typography variant='subtitle2' color='textSecondary'>
+                                    Air date: {character.episode[0].air_date}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
