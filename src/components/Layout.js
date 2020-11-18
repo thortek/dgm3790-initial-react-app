@@ -58,7 +58,6 @@ export default function ButtonAppBar() {
   } */
 
   const handleAuth = () => {
-    console.log(authContext.isAuthenticated)
     if (authContext.isAuthenticated) {
       authContext.logout()
       setLoginOpen(false)

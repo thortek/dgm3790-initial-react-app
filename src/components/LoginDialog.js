@@ -19,7 +19,7 @@ const LoginDialog = (props) => {
   const { open, onClose } = props
 
   const authContext = useContext(AuthContext)
-  const { signInWithGoogle } = authContext
+  const { signInWithGoogle, signInWithEmailAndPassword } = authContext
 
   const handleGoogleClick = async () => {
     try {
@@ -61,13 +61,16 @@ const LoginDialog = (props) => {
             .max(50, 'Password is too long!')
             .required('Password is required'),
         })}
-        onSubmit={ (values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={ async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            authContext.login()
+            await signInWithEmailAndPassword(values.email, values.password)
             console.log(values.email, values.password)
             handleClose()
           } catch (err) {
             console.error(err)
+            setStatus({ success: false })
+            setErrors({ submit: err.message })
+            setSubmitting(false)
           }
         }}
       >
