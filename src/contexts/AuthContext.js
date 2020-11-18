@@ -32,6 +32,7 @@ export const AuthContext = createContext({
     method: 'FirebaseAuth',
     signInWithGoogle: () => Promise.resolve(),
     signInWithEmailAndPassword: () => Promise.resolve(),
+    createUserWithEmailAndPassword: () => Promise.resolve(),
     logout: () => Promise.resolve()
 })
 
@@ -47,6 +48,10 @@ const AuthContextProvider = ( { children }) => {
     const signInWithEmailAndPassword = async (email, password) => {
         return firebase.auth().signInWithEmailAndPassword(email, password)
     }
+
+    const createUserWithEmailAndPassword = async (email, password) => {
+        return firebase.auth().createUserWithEmailAndPassword(email, password);
+      };
 
     const logout = () => {
         return firebase.auth().signOut()
@@ -91,6 +96,7 @@ const AuthContextProvider = ( { children }) => {
             method: 'FirebaseAuth',
             signInWithGoogle,
             signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
             logout
         }}
         >
