@@ -58,13 +58,13 @@ export default function ButtonAppBar() {
   } */
 
   const handleAuth = () => {
-    console.log(authContext.isAuth)
-    if (authContext.isAuth) {
+    console.log(authContext.isAuthenticated)
+    if (authContext.isAuthenticated) {
       authContext.logout()
       setLoginOpen(false)
       return
     }
-    if (!authContext.isAuth) {
+    if (!authContext.isAuthenticated) {
       if (!loginOpen) {
         setLoginOpen(true)
         return
@@ -93,7 +93,7 @@ export default function ButtonAppBar() {
             Senate
           </NavLink>
           {
-            authContext.isAuth ? <Button color='inherit' onClick={handleAuth}>Logout</Button> :
+            authContext.isAuthenticated ? <Button color='inherit' onClick={handleAuth}>Logout</Button> :
             <Button color='inherit' onClick={handleAuth}>Login</Button>
           }
         </Toolbar>

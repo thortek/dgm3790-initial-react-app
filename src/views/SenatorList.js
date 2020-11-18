@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 const SenatorList = () => {
   const classes = useStyles()
   const memberData = useCongressContext()
-  const { isAuth } = useContext(AuthContext)
+  const { isAuthenticated } = useContext(AuthContext)
   
 /*   const [memberData, setMemberData] = useState({
     loading: false,
@@ -32,7 +32,7 @@ const SenatorList = () => {
   }, []) */
 
   return (
-      isAuth ?
+    isAuthenticated ?
       <div>
         <Grid className={classes.root} container spacing={2}>
           {memberData.senators.map((member, index) => {

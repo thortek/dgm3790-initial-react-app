@@ -15,12 +15,12 @@ const useStyles = makeStyles(() => ({
 const Welcome = () => {
     const classes = useStyles()
 
-    const { isAuth } = useContext(AuthContext)
+    const { isAuthenticated } = useContext(AuthContext)
 
     return (
         <Box className={classes.root}>
             { 
-                isAuth ?
+                isAuthenticated ?
             <h1>Welcome to my Congress App!</h1>
                     :
             <h1>You need to register or login to see the Congress App data.</h1>

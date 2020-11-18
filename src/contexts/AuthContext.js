@@ -1,30 +1,95 @@
-import React, { useState, createContext } from 'react'
+import React, { useEffect, createContext, useReducer } from 'react'
+import firebase from '../lib/firebase'
 
-export const AuthContext = createContext({
-    isAuth: false,
+const initialAuthState = {
+    isAuthenticated: false,
+    isInitialised: false,
+    user: null,
     login: () => { },
     logout: () => { },
+}
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'AUTH_STATE_CHANGED': {
+            const { isAuthenticated, user } = action.payload
+
+            return {
+                ...state,
+                isAuthenticated,
+                isInitialised: true,
+                user
+            }
+        }
+        default: {
+            return {...state}
+            }
+    }
+}
+
+export const AuthContext = createContext({
+    ...initialAuthState,
+    method: 'FirebaseAuth',
+    signInWithGoogle: () => Promise.resolve(),
+    logout: () => Promise.resolve()
 })
 
-const AuthContextProvider = (props) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+const AuthContextProvider = ( { children }) => {
+    //const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [state, dispatch] = useReducer(reducer, initialAuthState)
 
-    const loginHandler = () => {
-        setIsAuthenticated(true)
+    const signInWithGoogle = () => {
+        const provider = new firebase.auth.GoogleAuthProvider()
+
+        return firebase.auth().signInWithPopup(provider)
     }
 
-    const logoutHandler = () => {
-        setIsAuthenticated(false)
+    const logout = () => {
+        return firebase.auth().signOut()
     }
+
+    useEffect(() => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            // Here you should extract the complete user profile to make it available in your entire app.
+            // The auth state only provides basic information.
+    
+            dispatch({
+              type: 'AUTH_STATE_CHANGED',
+              payload: {
+                isAuthenticated: true,
+                user: {
+                  id: user.uid,
+                  avatar: user.photoURL,
+                  email: user.email,
+                  name: user.displayName || user.email,
+                  tier: 'Premium'
+                }
+              }
+            });
+          } else {
+            dispatch({
+              type: 'AUTH_STATE_CHANGED',
+              payload: {
+                isAuthenticated: false,
+                user: null
+              }
+            });
+          }
+        });
+    
+        return unsubscribe;
+      }, [dispatch]);
 
     return (
         <AuthContext.Provider value={{
-            login: loginHandler,
-            logout: logoutHandler,
-            isAuth: isAuthenticated,
+            ...state,
+            method: 'FirebaseAuth',
+            signInWithGoogle,
+            logout
         }}
         >
-            {props.children}
+            {children}
         </AuthContext.Provider>
     )
 }

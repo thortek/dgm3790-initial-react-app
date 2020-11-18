@@ -19,6 +19,16 @@ const LoginDialog = (props) => {
   const { open, onClose } = props
 
   const authContext = useContext(AuthContext)
+  const { signInWithGoogle } = authContext
+
+  const handleGoogleClick = async () => {
+    try {
+      await signInWithGoogle()
+      handleClose()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const handleClose = () => {
     onClose(false)
@@ -26,6 +36,15 @@ const LoginDialog = (props) => {
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby='Login Dialog'>
+      <Button
+        className={classes.googleButton}
+        fullWidth
+        onClick={handleGoogleClick}
+        size="large"
+        variant="contained"
+      >
+        <img alt="Google" className={classes.providerIcon} src="/static/images/google.svg"/>
+        </Button>
       <Formik
         initialValues={{
           email: 'foo@example.com',

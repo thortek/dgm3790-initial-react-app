@@ -24,7 +24,7 @@ const Loading = () => (
 const RepresentativeList = () => {
   const classes = useStyles()
 
-  const { isAuth } = useContext(AuthContext)
+  const { isAuthenticated } = useContext(AuthContext)
 
   const [congressData, setCongressData] = useState({
     loading: false,
@@ -61,7 +61,7 @@ const RepresentativeList = () => {
   }, []) */
 
   return (
-    isAuth ?
+    isAuthenticated ?
     <div>
       {!congressData.loading && (
         <div className='column'>
