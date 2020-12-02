@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
+import _ from 'lodash'
 import { useQuery, gql } from '@apollo/client'
 import { Container,
     makeStyles,
@@ -6,7 +7,11 @@ import { Container,
     Card,
     CardMedia,
     CardActionArea,
-    CardContent, } from '@material-ui/core'
+    CardContent,
+    Input,
+    IconButton,
+} from '@material-ui/core'
+import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -21,14 +26,17 @@ const useStyles = makeStyles(() => ({
         textAlign: 'center',
       },
       card: {
-        maxWidth: 345,
+        width: 345,
         margin: 20,
       },
 }))
 
 const ALL_CHARACTERS = gql`
-query {
-    characters {
+query ($debouncedName: String!){
+    characters(filter: { name: $debouncedName }) {
+    info {
+      count
+    }
     results {
       id
       name
@@ -45,8 +53,22 @@ query {
 
 const RickMortyViewer = () => {
     const classes = useStyles()
+    const [debouncedName, setDebouncedName] = useState("")
 
-    const { loading, error, data } = useQuery(ALL_CHARACTERS)
+    const handleInput = event => {
+        debounce(event.target.value)
+    }
+
+    const debounce = useCallback(
+        _.debounce((searchVal) => {
+            setDebouncedName(searchVal)
+        }, 1000),
+        []
+    )
+
+    const { loading, error, data } = useQuery(ALL_CHARACTERS, {
+        variables: { debouncedName }
+    })
 
     if (loading) {
         return (
@@ -66,7 +88,16 @@ const RickMortyViewer = () => {
 
     console.log(characterList)
 
+
+
     return (
+        <>
+        <form>
+                <Input placeholder='Search' onChange={handleInput}/>
+                <IconButton aria-label="search">
+                    <SearchIcon/>
+                </IconButton>
+        </form>
         <Container className={classes.root}>
             {characterList.map(character => {
                 return (
@@ -95,7 +126,7 @@ const RickMortyViewer = () => {
                 )
             })}
         </Container>
-        
+        </>
     )
 }
 
