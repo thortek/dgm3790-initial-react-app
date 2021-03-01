@@ -8,11 +8,13 @@ import Welcome from './components/Welcome'
 import { CongressContextProvider } from './contexts/CongressContext'
 import { CSSTransition } from 'react-transition-group'
 import RickMortyViewer from './components/RickMortyViewer'
+import MovieList from './views/MovieList'
 
 const routes = [
   { path: '/house', Component: RepresentativeList },
   { path: '/senate', Component: SenatorList },
-  { path: '/graphql', Component: RickMortyViewer},
+  { path: '/graphql', Component: RickMortyViewer },
+  { path: '/movies', Component: MovieList },
   { path: '/', Component: Welcome }
 ]
 
